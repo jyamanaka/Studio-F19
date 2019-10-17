@@ -1,0 +1,404 @@
+/***************************************************************************************
+*    Thanks to Nadieh Bremer for sharing her plugin
+*    Title: <loom.js>
+*    Author: <Nadieh Bremer>
+*    Date: <2015>
+***************************************************************************************/<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css?family=Macondo+Swash+Caps|Macondo" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:700|Open+Sans:300i,400,600,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,900&display=swap" rel="stylesheet">
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="d3-loom.js"></script>  
+		<style>
+  
+			html { 
+				font-size: 61%; 
+			} 
+			body {
+				font-family: 'Cormorant', serif;
+				font-size: 1.2rem;
+				fill: #b9b9b9;
+			}
+			#chart {
+				text-align: center;
+			}
+			.string-wrapper {
+				isolation: isolate;
+			}
+			.string {
+				mix-blend-mode: multiply;
+			}
+						
+			.inner-label {
+				font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 1.6rem;
+				fill: #cd5c5c;
+				cursor: default;
+				text-anchor: middle;
+			}
+			.outer-label {
+				font-family: 'Open Sans', sans-serif;
+				font-weight: bold;
+        font-size: 1.4rem;
+				fill: #5f5f5f;
+				cursor: default;
+			}
+			.outer-label-value {
+				font-size: 1.3rem;
+				fill: #b9b9b9;
+			}
+		</style>
+		
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="d3-loom.js"></script>
+	</head>
+	<body>
+		
+    
+    <h2 style="font-family:Playfair Display;">Qualitative Visualization</h2>
+    <h1 style="font-family: Playfair Display", >Chasing Richard Serras' Verbs - searching Art at the MET</h1>
+
+    <h3>Concepts & Story</h3>
+    <p>
+    </p>
+    <p style="font-family:Playfair Display;">My initial idea was to have a ‘search’ function that would be based on an ‘ACTION’, which is how all of the art in the world is created.  Richard Serra’s famous ‘VERB LIST’ in which he compiled as a guide to his process and development of his sculptures, but more - to all artwork.  When searching for a visual depiction of this, I found a work of his called “The Matter of Time”, which consists of 7 monumental sculptures, on permanent view at the Guggenheim Bilbao.  Viewing his sketches for this work, I realized that 7 verbscould distinctly describe this work, and that led to how I could create a search on how verbs might search artwork at the MET..</p>
+
+
+    <div id="chart"></div>
+
+    <div id="images">
+      
+      <table>
+        <tr>
+          <td>Image 1</td>
+          <td>Image 2</td>
+        </tr>
+        <tr>
+          <td>Image 3</td>
+          <td>Image 4</td>
+        </tr>
+      </table>
+
+    </div>
+
+    <div id="chart2"></div>
+
+		<script>
+      /***
+        
+        1. Send up the code
+        2. Comment it 
+        3. Use the proper classifications
+        4. Comments where I can change the different visual settingss
+        ***/
+        const classification_verb_counts = {
+          "rotate": {
+            "total": 228,
+            "objectsByClassification": {
+              "Arms & Armor":18,
+              "Ceramics": 31,
+              "Drawing/Prints": 6,
+              "Furniture/Decorative Arts": 16,
+              "Glass": 4,
+              "Jewelry": 0,
+              "Manuscript/Codices": 5,
+              "Metalworks": 15,
+              "Musical Instruments": 1,
+              "Paintings": 83,
+              "Photography": 35,
+              "Sculpture": 9,
+              "Textiles": 11,
+              "Misc": 7
+            }
+          },
+          "simplify": {
+            "total": 184,
+            "objectsByClassification": {
+              "Arms & Armor":4,
+              "Ceramics": 12,
+              "Drawing/Prints": 18,
+              "Furniture/Decorative Arts": 1,
+              "Glass": 1,
+              "Jewelry": 1,
+              "Manuscript/Codices": 27,
+              "Metalworks": 4,
+              "Musical Instruments": 1,
+              "Paintings": 51,
+              "Photography": 0,
+              "Sculpture": 16,
+              "Textiles": 10,
+              "Misc": 7
+            }
+          },
+          "swirl": {
+            "total": 207,
+            "objectsByClassification": {
+              "Arms & Armor":5,
+              "Ceramics": 16,
+              "Drawing/Prints": 48,
+              "Furniture/Decorative Arts": 14,
+              "Glass": 32,
+              "Jewelry": 0,
+              "Manuscript/Codices": 18,
+              "Metalworks": 18,
+              "Musical Instruments": 0,
+              "Paintings": 25,
+              "Photography": 1,
+              "Sculpture": 17,
+              "Textiles": 3,
+              "Misc": 1
+            }
+          },
+          "encircle": {
+            "total": 529,
+            "objectsByClassification": {
+              "Arms & Armor":19,
+              "Ceramics": 97,
+              "Drawing/Prints": 97,
+              "Furniture/Decorative Arts": 37,
+              "Glass": 22,
+              "Jewelry": 3,
+              "Manuscript/Codices": 34,
+              "Metalworks": 89,
+              "Musical Instruments": 3,
+              "Paintings": 30,
+              "Photography": 35,
+              "Sculpture": 20,
+              "Textiles": 12,
+              "Misc": 20
+            }
+          },
+          "bend": {
+            "total": 230,
+            "objectsByClassification": {
+              "Arms & Armor":5,
+              "Ceramics": 10,
+              "Drawing/Prints": 46,
+              "Furniture/Decorative Arts": 165,
+              "Glass": 6,
+              "Jewelry": 2,
+              "Manuscript/Codices": 5,
+              "Metalworks": 28,
+              "Musical Instruments": 2,
+              "Paintings": 32,
+              "Photography": 2,
+              "Sculpture": 13,
+              "Textiles": 7,
+              "Misc": 10
+            }
+          },
+          "tension": {
+            "total": 114,
+            "objectsByClassification": {
+              "Arms & Armor":1,
+              "Ceramics": 4,
+              "Drawing/Prints": 12,
+              "Furniture/Decorative Arts": 37,
+              "Glass": 22,
+              "Jewelry": 3,
+              "Manuscript/Codices": 34,
+              "Metalworks": 89,
+              "Musical Instruments": 3,
+              "Paintings": 30,
+              "Photography": 35,
+              "Sculpture": 20,
+              "Textiles": 12,
+              "Misc": 20
+            }
+          },
+          "twist": {
+            "total": 696,
+            "objectsByClassification": {
+              "Arms & Armor":6,
+              "Ceramics": 21,
+              "Drawing/Prints": 48,
+              "Furniture/Decorative Arts": 40,
+              "Glass": 117,
+              "Jewelry": 69,
+              "Manuscript/Codices": 62,
+              "Metalworks": 127,
+              "Musical Instruments": 13,
+              "Paintings": 65,
+              "Photography": 2,
+              "Sculpture": 51,
+              "Textiles": 21,
+              "Misc": 10
+            }
+          }
+        }
+        
+        
+        /* 
+          Transform the data into the shape I need
+        */
+        const newData = []
+        for (let verb in classification_verb_counts){
+          const classificationCounts = classification_verb_counts[verb].objectsByClassification
+          for (let classification in classificationCounts){
+            const newObj = { verb: verb, classification: classification, count: classificationCounts[classification] }
+            newData.push(newObj)
+          }
+        }
+        
+        /* 
+          Filter out only the classifications I want
+        */
+        const classificationsFilter =   ["Arms & Armor", "Ceramics", "Drawing/Prints", "Furniture/Decorative Arts", "Glass", "Jewelry", "Manuscript/Codexs", "Metalworks", "Musical Instruments","Paintings","Paintings", "Photography", "Sculpture", "Textiles", "Misc"]
+        
+        const newDataFiltered = newData.filter(d => classificationsFilter.indexOf(d.classification) > -1)
+        
+       
+			////////////////////////////////////////////////////////////
+			////////////////////// Create SVG //////////////////////////
+			////////////////////////////////////////////////////////////
+			var margin = {left:120, top:50, right:120, bottom:50},
+				width = 730,
+				height = 740,
+				innerRadius = 244,
+				outerRadius = innerRadius * 1.05;
+						
+			var svg = d3.select("#chart").append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom);
+			////////////////////////////////////////////////////////////
+			/////////////////// Set-up Loom parameters /////////////////
+			////////////////////////////////////////////////////////////
+				
+			//Some default parameters of how wide the graphic is
+			var pullOutSize = 20 + 30/135 * innerRadius;
+			var numFormat = d3.format(",.0f");
+			// Manually sorted the inner verbs based on the order I want
+			var verbOrder = ["rotate", "encircle", "simplify", "twist", "swirl", "bond", "tension" ]
+			function sortVerb(a, b) { return verbOrder.indexOf(a) - verbOrder.indexOf(b); }
+      //Initiate the loom function with all the options
+      
+      var loom = d3.loom()
+        // ADJUSTABLE!
+			  //sets the amount of white space that goes between the different outer arcs; a bigger value means more whitespace.
+        .padAngle(0.05)
+			  
+        .sortSubgroups(sortVerb)
+				.heightInner(20)
+				//this gives the percentage of the circle that will be empty to create space in the top and bottom. Supplying it as a ratio between 0 and 1, 0.2 would be the same as 20% of the circle being empty.
+        .emptyPerc(0.2)
+				
+        //this width gives the horizontal distance between the inner endpoints of the strings in the center between the 2 sides of the graphic.
+        .widthInner(30)
+				.value(function(d) { return d.count; })
+				.inner(function(d) { return d.verb.toUpperCase(); })
+				.outer(function(d) { return d.classification; })
+			//Initiate the inner string function that belongs to the loom
+			var string = d3.string()
+				.radius(innerRadius)
+				.pullout(pullOutSize);
+			//Initiate an arc drawing function that is also needed
+			var arc = d3.arc()
+				.innerRadius(innerRadius*1.01)
+				.outerRadius(outerRadius);
+			////////////////////////////////////////////////////////////
+			///////////////////////// Colors ///////////////////////////
+			////////////////////////////////////////////////////////////
+								
+			//Colors for the unique locations
+      
+      /*
+        This is how I can customize the colors!
+      */
+      var colors = ["#603813", "#7d6e67",   "#773c42", "#c67d1f", "#948d71",  "#5d504a",    "#4b3935",         "#7d5a32", "#5c4c47", "#998675",     "#736357",   "#a97840", "#714f4f"];
+    
+			var color = d3.scaleOrdinal()//setting up the variable
+				.domain(classificationsFilter)
+				.range(colors);
+			////////////////////////////////////////////////////////////
+			///////////////////// Read in data /////////////////////////
+			////////////////////////////////////////////////////////////
+						
+			
+				
+				//Create a group that already holds the data
+				var g = svg.append("g")
+				    .attr("transform", "translate(" + (width/2 + margin.left) + "," + (height/2 + margin.top) + ")")
+					.datum(loom(newDataFiltered));	
+								
+				////////////////////////////////////////////////////////////
+				////////////////////// Draw outer arcs /////////////////////
+				////////////////////////////////////////////////////////////
+				var arcGroup = g.append("g").attr("class", "arc-outer-wrapper");
+				//Create a group per outer arc, which will contain the arc path + the location name & number of words text
+				var arcs = arcGroup.selectAll(".arc-wrapper")
+					.data(function(s) { return s.groups; })
+					.enter().append("g")
+					.attr("class", "arc-wrapper")
+					.each(function(d) { d.pullOutSize = (pullOutSize * ( d.startAngle > Math.PI + 1e-2 ? -1 : 1)) });
+				//Create the actual arc paths
+				var outerArcs = arcs.append("path")
+					.attr("class", "arc")
+					.style("fill", function(d) { return color(d.outername); })
+					.attr("d", arc)
+					.attr("transform", function(d, i) { 
+						return "translate(" + d.pullOutSize + ',' + 0 + ")"; //Pull the two slices apart
+					});
+						
+				////////////////////////////////////////////////////////////
+				//////////////////// Draw outer labels /////////////////////
+				////////////////////////////////////////////////////////////
+				//The text needs to be rotated with the offset in the clockwise direction
+				var outerLabels = arcs.append("g")
+					.each(function(d) { d.angle = ((d.startAngle + d.endAngle) / 2); })
+					.attr("class", "outer-labels")
+					.attr("text-anchor", function(d) { return d.angle > Math.PI ? "end" : null; })
+					.attr("transform", function(d,i) { 
+						var c = arc.centroid(d);
+						return "translate(" + (c[0] + d.pullOutSize) + "," + c[1] + ")"
+						+ "rotate(" + (d.angle * 180 / Math.PI - 90) + ")"
+						+ "translate(" + 26 + ",0)"
+						+ (d.angle > Math.PI ? "rotate(180)" : "")
+					})
+					
+				//The outer name
+				outerLabels.append("text")
+					.attr("class", "outer-label")
+					.attr("dy", ".35em")
+					.attr("fill", function(d,i){ return color(d.outername) })
+          .text(function(d,i){ return d.outername; });
+					
+				//The value below it
+				outerLabels.append("text")
+					.attr("class", "outer-label-value")
+					.attr("dy", "1.5em")
+					.text(function(d,i){ return numFormat(d.value) + " words"; });
+				////////////////////////////////////////////////////////////
+				//////////////////// Draw inner strings ////////////////////
+				////////////////////////////////////////////////////////////
+				
+				var stringGroup = g.append("g").attr("class", "string-wrapper");
+				//Draw the paths of the inner strings
+				var strings = stringGroup.selectAll("path")
+					.data(function(strings) { return strings; })
+					.enter().append("path")
+					.attr("class", "string")
+					.style("fill", function(d) { return d3.rgb( color(d.outer.outername) ).brighter(0.2) ; })
+					.style("opacity", 0.85)
+					.attr("d", string);
+					
+				////////////////////////////////////////////////////////////
+				//////////////////// Draw inner labels /////////////////////
+				////////////////////////////////////////////////////////////
+						
+				var innerLabelGroup = g.append("g").attr("class","inner-label-wrapper");
+				//Place the inner text labels in the middle
+				var innerLabels = innerLabelGroup.selectAll("text")
+					.data(function(s) { return s.innergroups; })
+					.enter().append("text")
+					.attr("class", "inner-label")
+					.attr("x", function(d,i) { return d.x; })
+					.attr("y", function(d,i) { return d.y; })
+					.attr("dy", ".35em")
+					.text(function(d,i) { return d.name; });
+				  		
+			
+		</script>
+	</body>
+</html>
