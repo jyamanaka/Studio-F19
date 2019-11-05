@@ -1,0 +1,107 @@
+html {
+  font-size: 61%;
+}
+body {
+  font-family: 'Playfair Display', serif;
+  font-size: 14.5px;
+  fill: #b9b9b9;
+}
+h1,
+h2,
+h3 {
+  text-align: center;
+}
+h1 {
+  font-size: 4rem;
+  font-weight: 400;
+}
+h2 {
+  font-style: oblique 40deg;
+  font-size: 14.5px;
+  font-weight: 400;
+}
+header {
+  position: relative;
+}
+#header-verb {
+  position: absolute;
+}
+#body-copy {
+  text-align: center;
+}
+
+#count {
+  text-align: center;
+  color: #cd5c5c;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 900;
+}
+
+#verb-info {
+  position: absolute;
+  width: 100%;
+  top: 350px;
+}
+
+#definition {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#definition span {
+  font-weight: 900;
+}
+
+#definition p {
+  width: 200px;
+  margin: auto;
+}
+#chart {
+  text-align: center;
+}
+.string-wrapper {
+  isolation: isolate;
+}
+.string {
+  mix-blend-mode: multiply;
+}
+
+.inner-label {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 1.6rem;
+  fill: #cd5c5c;
+  cursor: default;
+  text-anchor: middle;
+}
+.outer-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 1.4rem;
+  fill: #5f5f5f;
+  cursor: default;
+}
+.outer-label-value {
+  font-size: 1.3rem;
+  fill: #acacac;
+}
+
+#images {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#images .imageContainer {
+  display: flex;
+  margin: 1rem;
+  width: 30%;
+}
+
+#images .imageContainer span {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+#images .imageContainer img {
+  max-height: 75px;
+  max-width: 75px;
+}
