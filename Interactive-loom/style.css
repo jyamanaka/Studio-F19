@@ -1,4 +1,51 @@
-html {
+   position: absolute; font-weight: 900;
+}
+ 
+#definition p {
+  width: 200px;
+  margin: auto;
+}
+#chart {
+  text-align: center;
+}
+.string-wrapper {
+  isolation: isolate;
+}
+.string {
+  mix-blend-mode: multiply;
+}
+ 
+.inner-label {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 1.6rem;
+  fill: #cd5c5c;
+  cursor: default;
+  text-anchor: middle;
+}
+.outer-label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  font-size: 1.4rem;
+  fill: #5f5f5f;
+  cursor: default;
+}
+.outer-label-value {
+  font-size: 1.3rem;
+  fill: #acacac;
+}
+ 
+#images {
+  display: flex;
+  flex-wrap: wrap;
+}
+ 
+#images .imageContainer {
+  display: flex;
+  margin: 1rem;
+  width: 30%;
+}
+ 
+#images .imageContainer span {html {
   font-size: 61%;
 }
 body {
@@ -29,79 +76,32 @@ header {
 #body-copy {
   text-align: center;
 }
-
+ 
 #count {
   text-align: center;
   color: #cd5c5c;
   font-family: 'Open Sans', sans-serif;
   font-weight: 900;
 }
-
+ 
 #verb-info {
-  position: absolute;
+ 
   width: 100%;
   top: 350px;
 }
-
+ 
 #definition {
   font-family: 'Open Sans', sans-serif;
 }
-
+ 
 #definition span {
-  font-weight: 900;
-}
-
-#definition p {
-  width: 200px;
-  margin: auto;
-}
-#chart {
-  text-align: center;
-}
-.string-wrapper {
-  isolation: isolate;
-}
-.string {
-  mix-blend-mode: multiply;
-}
-
-.inner-label {
-  font-family: 'Open Sans Condensed', sans-serif;
-  font-size: 1.6rem;
-  fill: #cd5c5c;
-  cursor: default;
-  text-anchor: middle;
-}
-.outer-label {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  font-size: 1.4rem;
-  fill: #5f5f5f;
-  cursor: default;
-}
-.outer-label-value {
-  font-size: 1.3rem;
-  fill: #acacac;
-}
-
-#images {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-#images .imageContainer {
-  display: flex;
-  margin: 1rem;
-  width: 30%;
-}
-
-#images .imageContainer span {
+ 
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   margin-left: 0.5rem;
 }
 #images .imageContainer img {
-  max-height: 75px;
-  max-width: 75px;
+  max-height: 90px;
+  max-width: 90px;
 }
